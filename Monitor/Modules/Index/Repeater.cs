@@ -1,4 +1,4 @@
-﻿namespace Monitor.Modules
+﻿namespace Monitor.Modules.Index
 {
     internal class Repeater : IRepeater
     {

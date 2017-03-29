@@ -1,4 +1,4 @@
-﻿namespace Monitor.Modules
+﻿namespace Monitor.Modules.Index
 {
     public interface IRepeater
     {
