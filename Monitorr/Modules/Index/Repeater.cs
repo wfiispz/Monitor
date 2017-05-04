@@ -1,5 +1,4 @@
-﻿
-using Simple.Data;
+﻿using Simple.Data;
 
 namespace Monitor.Modules.Index
 {
@@ -12,8 +11,8 @@ namespace Monitor.Modules.Index
 
         public string FromDb(string value)
         {
-            var db = Database.OpenNamedConnection("ProductionDB");
-            var result = db.DummyData.FindById(int.Parse(value));
+            var db = Database.Open();
+            var result = db.DummyData.FindById(11);
             return result.String;
         }
     }
