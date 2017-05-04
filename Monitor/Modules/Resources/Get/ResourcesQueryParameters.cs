@@ -1,6 +1,4 @@
-﻿using Monitor.CommandBus;
-
-namespace Monitor.Modules.Resources.Get
+﻿namespace Monitor.Modules.Resources.Get
 {
     class ResourcesQueryParameters
     {
@@ -13,10 +11,5 @@ namespace Monitor.Modules.Resources.Get
         public string Name { get; set; }
         public int PageSize { get; set; }
         public int Page { get; set; }
-
-        public ResourcesResponse Query()
-        {
-            return null;
-        }
     }
 }
