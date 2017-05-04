@@ -1,5 +1,7 @@
-﻿using Monitor.CommandBus;
+﻿using System;
+using Monitor.CommandBus;
 using Nancy;
+using Nancy.Bootstrapper;
 
 namespace Monitor.Modules.Index
 {
@@ -14,13 +16,23 @@ namespace Monitor.Modules.Index
             _commandBus = commandBus;
             Get["/"] = parameters => "Its working!!!";
             Get["/{value}"] = parameters => _repeater.Repeat(parameters.value);
+            Get["/oopserror"] = _ => throw new ArgumentException("message");
             Get["/db/{value}"] = parameters => _repeater.FromDb(parameters.value);
             Post["/{value}"] = parameters =>
             {
                 var command = new IndexCommand(parameters.value);
                 return _commandBus.Handle(command);
             };
+            OnError += HandleException;
+        }
 
+        private object HandleException(NancyContext arg1, Exception arg2)
+        {
+            if (arg2 is ArgumentException)
+            {
+                return new Response {StatusCode = HttpStatusCode.BadRequest};
+            }
+            return new Response {StatusCode = HttpStatusCode.InternalServerError};
         }
     }
 }

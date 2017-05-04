@@ -1,22 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Web;
+﻿using Simple.Data;
 
 namespace Monitor.Persistence
 {
     public class DbAdapter
     {
-
         public DbAdapter()
         {
-            
-            
+            SimpleData = Database.OpenNamedConnection("ProductionDB");
         }
 
-        public dynamic Query { get; }
-
-
+        public dynamic SimpleData { get; }
     }
 }
