@@ -9,7 +9,7 @@ namespace Monitor
 
         public void Start()
         {
-            _host = new NancyHost(new Uri("http://localhost:8000"));
+            _host = new NancyHost(new Uri(new Configuration().UrlBasePath));
             _host.Start();
         }
 
