@@ -1,6 +1,6 @@
 ﻿using System;
 using Monitor.CommandBus;
-using Monitor.Persistence;
+using Monitor.Database;
 using Nancy;
 using Nancy.Bootstrapper;
 using NHibernate;

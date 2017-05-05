@@ -1,6 +1,5 @@
 ﻿using System;
 using Autofac.Features.Indexed;
-using Nancy;
 
 namespace Monitor.CommandBus
 {
@@ -13,7 +12,7 @@ namespace Monitor.CommandBus
             _commandHandlersFactory = commandHandlersFactory;
         }
 
-        public Response Handle<TCommand>(TCommand command) where TCommand : ICommand
+        public object Handle<TCommand>(TCommand command) where TCommand : ICommand
         {
             var commandHandler = (IHandleCommand<TCommand>)_commandHandlersFactory[typeof(TCommand)];
             return commandHandler.Handle(command);

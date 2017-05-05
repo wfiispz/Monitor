@@ -1,9 +1,7 @@
-﻿using Nancy;
-
-namespace Monitor.CommandBus
+﻿namespace Monitor.CommandBus
 {
     public interface ICommandBus
     {
-        Response Handle<TCommand>(TCommand command) where TCommand:ICommand;
+        object Handle<TCommand>(TCommand command) where TCommand:ICommand;
     }
 }

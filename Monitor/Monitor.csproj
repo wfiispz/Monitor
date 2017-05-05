@@ -77,6 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutofacConfiguration\Bootstrapper.cs" />
+    <Compile Include="Configuration.cs" />
     <Compile Include="CommandBus\CommandHandlerAttribute.cs" />
     <Compile Include="CommandBus\ICommand.cs" />
     <Compile Include="CommandBus\ICommandBus.cs" />
@@ -88,22 +89,26 @@
     <Compile Include="Modules\Index\IndexModule.cs" />
     <Compile Include="Modules\Index\IRepeater.cs" />
     <Compile Include="Modules\Index\Repeater.cs" />
-    <Compile Include="Modules\Resources\Create\CreateResource.cs" />
+    <Compile Include="Modules\Resources\CreateResource.cs" />
+    <Compile Include="IPathBuilder.cs" />
+    <Compile Include="Modules\Resources\CreateResourceHandler.cs" />
     <Compile Include="Modules\Resources\DeleteResource.cs" />
+    <Compile Include="Modules\Resources\DeleteResourceHandler.cs" />
     <Compile Include="Modules\Resources\Get\Resource.cs" />
     <Compile Include="Modules\Resources\Get\ResourcesQueryParameters.cs" />
     <Compile Include="Modules\Resources\Get\IResourcesQuery.cs" />
     <Compile Include="Modules\Resources\ResourcesModule.cs" />
     <Compile Include="Modules\Resources\Get\ResourcesResponse.cs" />
-    <Compile Include="Modules\Resources\Create\Sensor.cs" />
+    <Compile Include="Modules\Resources\Sensor.cs" />
     <Compile Include="Modules\Resources\Get\ResourcesQuery.cs" />
     <Compile Include="NancyApiHost.cs" />
     <Compile Include="PageDetails.cs" />
-    <Compile Include="Persistence\ComplexMetric.cs" />
-    <Compile Include="Persistence\Measurement.cs" />
-    <Compile Include="Persistence\Resource.cs" />
-    <Compile Include="Persistence\Sensor.cs" />
-    <Compile Include="Persistence\SessionFactoryProvider.cs" />
+    <Compile Include="PathBuilder.cs" />
+    <Compile Include="Database\ComplexMetric.cs" />
+    <Compile Include="Database\Measurement.cs" />
+    <Compile Include="Database\Resource.cs" />
+    <Compile Include="Database\Sensor.cs" />
+    <Compile Include="Database\SessionFactoryProvider.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using FluentNHibernate.Cfg;
 using FluentNHibernate.Cfg.Db;
 using NHibernate;
-using NHibernate.Cfg;
 using NHibernate.Tool.hbm2ddl;
 
-namespace Monitor.Persistence
+namespace Monitor.Database
 {
     class SessionFactoryProvider
     {
@@ -20,7 +16,7 @@ namespace Monitor.Persistence
                 .BuildSessionFactory();
         }
 
-        private Action<Configuration> BuildSchema(bool exportSchema)
+        private Action<NHibernate.Cfg.Configuration> BuildSchema(bool exportSchema)
         {
             return config =>
             {

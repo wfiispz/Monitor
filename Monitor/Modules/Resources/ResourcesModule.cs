@@ -1,13 +1,13 @@
 ﻿using System;
 using Monitor.CommandBus;
-using Monitor.Modules.Resources.Create;
 using Monitor.Modules.Resources.Get;
 using Nancy;
 using Nancy.ModelBinding;
 
 namespace Monitor.Modules.Resources
 {
-    class ResourcesModule:NancyModule
+    // todo tests to whole module
+    public class ResourcesModule:NancyModule
     {
         private readonly ICommandBus _commandBus;
         private readonly IResourcesQuery _resourcesQuery;
@@ -23,7 +23,7 @@ namespace Monitor.Modules.Resources
             Delete["/{id:guid}"] = parameters => HandleDelete();
         }
 
-        private Response HandleDelete()
+        private object HandleDelete()
         {
             var command = this.Bind<DeleteResource>();
             return _commandBus.Handle(command);
@@ -41,7 +41,7 @@ namespace Monitor.Modules.Resources
             return _resourcesQuery.Get(parameters);
         }
 
-        private Response HandlePost()
+        private object HandlePost()
         {
             var command = this.Bind<CreateResource>();
             return _commandBus.Handle(command);

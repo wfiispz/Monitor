@@ -1,6 +1,6 @@
 ﻿using Monitor.CommandBus;
 
-namespace Monitor.Modules.Resources.Create
+namespace Monitor.Modules.Resources
 {
     public class CreateResource : ICommand
     {

@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Monitor.Modules.Resources;
 using Monitor.Modules.Resources.Get;
-using Monitor.Persistence;
 using NUnit.Framework;
 using Resource = Monitor.Modules.Resources.Get.Resource;
 

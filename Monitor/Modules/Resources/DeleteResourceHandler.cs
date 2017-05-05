@@ -1,9 +1,11 @@
 using System.Data;
 using Monitor.CommandBus;
+using Monitor.Database;
 using NHibernate;
 
 namespace Monitor.Modules.Resources
 {
+    [CommandHandler(typeof(DeleteResource))]
     public class DeleteResourceHandler : IHandleCommand<DeleteResource>
     {
         private readonly ISessionFactory _sessionFactory;
@@ -19,7 +21,7 @@ namespace Monitor.Modules.Resources
             {
                 using (var transaction = session.BeginTransaction(IsolationLevel.RepeatableRead))
                 {
-                    var resource = session.QueryOver<Persistence.Resource>().Where(x => x.Guid == command.Id)
+                    var resource = session.QueryOver<Resource>().Where(x => x.Guid == command.Id)
                         .SingleOrDefault();
                     session.Delete(resource);
                     transaction.Commit();

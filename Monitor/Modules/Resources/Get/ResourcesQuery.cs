@@ -5,6 +5,7 @@ using NHibernate;
 
 namespace Monitor.Modules.Resources.Get
 {
+    // todo tests
     class ResourcesQuery : IResourcesQuery
     {
         private readonly ISessionFactory _sessionFactory;
@@ -20,7 +21,7 @@ namespace Monitor.Modules.Resources.Get
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                var resource = session.QueryOver<Persistence.Resource>().Where(x => x.Guid == guid)
+                var resource = session.QueryOver<Database.Resource>().Where(x => x.Guid == guid)
                     .JoinQueryOver(x => x.Sensors).SingleOrDefault();
 
                 return _mapper.Map<Resource>(resource);
@@ -31,13 +32,13 @@ namespace Monitor.Modules.Resources.Get
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                var resources = session.QueryOver<Persistence.Resource>()
+                var resources = session.QueryOver<Database.Resource>()
                     .JoinQueryOver(x=>x.Sensors)
                     .Skip(parameters.PageSize * (parameters.Page - 1))
                     .Take(parameters.PageSize)
                     .List();
 
-                var resourcesCount = session.QueryOver<Persistence.Resource>()
+                var resourcesCount = session.QueryOver<Database.Resource>()
                     .RowCount();
 
                 return new ResourcesResponse

@@ -1,7 +1,7 @@
 using System;
 using FluentNHibernate.Mapping;
 
-namespace Monitor.Persistence
+namespace Monitor.Database
 {
     public class Measurement
     {

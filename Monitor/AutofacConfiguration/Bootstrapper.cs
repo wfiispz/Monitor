@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Autofac;
+using Autofac.Core;
 using Monitor.CommandBus;
+using Monitor.Database;
 using Monitor.Mapping;
 using Monitor.Modules.Index;
-using Monitor.Persistence;
 using Nancy;
 using Nancy.Bootstrappers.Autofac;
 using NHibernate;
@@ -50,7 +51,13 @@ namespace Monitor.AutofacConfiguration
             builder.Register(x => x.Resolve<SessionFactoryProvider>().Create(false)).As<ISessionFactory>()
                 .SingleInstance().AutoActivate();
 
-            builder.Register(x => x.Resolve<AutomapperProvider>().Create(x.Resolve<Configuration>().UrlBasePath))
+            builder.Register(x => x.Resolve<AutomapperProvider>().Create())
+                .AsImplementedInterfaces();
+
+            builder.RegisterType<PathBuilder>().WithParameter(new ResolvedParameter(
+                (info, _) => info.Name == "urlBasePath",
+                (_, context) => context.Resolve<Configuration>().UrlBasePath))
+                .AsSelf()
                 .AsImplementedInterfaces();
 
         }
