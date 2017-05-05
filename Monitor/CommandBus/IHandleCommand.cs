@@ -1,6 +1,4 @@
-﻿using Nancy;
-
-namespace Monitor.CommandBus
+﻿namespace Monitor.CommandBus
 {
     interface IHandleCommand
     {
@@ -8,6 +6,6 @@ namespace Monitor.CommandBus
 
     interface IHandleCommand<T>:IHandleCommand where T:ICommand
     {
-        Response Handle(T command);
+        object Handle(T command);
     }
 }
