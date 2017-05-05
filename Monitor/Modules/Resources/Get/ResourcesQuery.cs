@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using AutoMapper;
 using NHibernate;
 
@@ -28,7 +29,28 @@ namespace Monitor.Modules.Resources.Get
 
         public ResourcesResponse Get(ResourcesQueryParameters parameters)
         {
-            throw new NotImplementedException();
+            using (var session = _sessionFactory.OpenSession())
+            {
+                var resources = session.QueryOver<Persistence.Resource>()
+                    .JoinQueryOver(x=>x.Sensors)
+                    .Skip(parameters.PageSize * (parameters.Page - 1))
+                    .Take(parameters.PageSize)
+                    .List();
+
+                var resourcesCount = session.QueryOver<Persistence.Resource>()
+                    .RowCount();
+
+                return new ResourcesResponse
+                {
+                    Resources = resources.Select(x => _mapper.Map<Resource>(x)).ToArray(),
+                    Page = new PageDetails
+                    {
+                        Number = parameters.Page,
+                        Size = parameters.PageSize,
+                        TotalCount = resourcesCount
+                    }
+                };
+            }
         }
     }
 }
