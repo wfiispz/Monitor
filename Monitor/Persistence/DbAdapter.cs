@@ -2,7 +2,7 @@
 
 namespace Monitor.Persistence
 {
-    public class DbAdapter
+    public class DbAdapter : IDbAdapter
     {
         public DbAdapter()
         {

@@ -1,6 +1,6 @@
 ﻿namespace Monitor.Modules.Resources.Get
 {
-    class ResourcesQueryParameters
+    public class ResourcesQueryParameters
     {
         public ResourcesQueryParameters()
         {

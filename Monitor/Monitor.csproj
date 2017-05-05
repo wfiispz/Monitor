@@ -101,9 +101,11 @@
     <Compile Include="Modules\Resources\ResourcesModule.cs" />
     <Compile Include="Modules\Resources\Get\ResourcesResponse.cs" />
     <Compile Include="Modules\Resources\Create\Sensor.cs" />
+    <Compile Include="Modules\Resources\ResourcesQuery.cs" />
     <Compile Include="NancyApiHost.cs" />
     <Compile Include="PageDetails.cs" />
     <Compile Include="Persistence\DbAdapter.cs" />
+    <Compile Include="Persistence\IDbAdapter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
