@@ -4,10 +4,16 @@ using Monitor.Modules.Resources;
 using Monitor.Modules.Resources.Get;
 using Monitor.Persistence;
 using NUnit.Framework;
+using Resource = Monitor.Modules.Resources.Get.Resource;
 
 namespace Monitor.UnitTests.Resources
 {
-    [TestFixture]
+    public interface IDbAdapter
+    {
+        dynamic SimpleData { get;}
+    }
+
+[TestFixture]
     public class ResourcesQueryTests
     {
         private static readonly Guid ResourceGuid = Guid.Parse("5176276f-081d-4e4c-82a9-e80b1ec40d4d");
@@ -44,7 +50,8 @@ namespace Monitor.UnitTests.Resources
 
         private static ResourcesQuery CreateResourcesQuery(IDbAdapter db)
         {
-            return new ResourcesQuery(db);
+            return null;
+//            return new ResourcesQuery(db);
         }
 
         private static IEnumerable<TestCaseData> TestCases()
@@ -55,7 +62,7 @@ namespace Monitor.UnitTests.Resources
             }, new ResourcesResponse
             {
                 Page = new PageDetails {Number = 1, Size = 100, TotalCount = 0},
-                Resources = new Resource[0]
+                Resources = new Modules.Resources.Get.Resource[0]
             }).SetName("Empty result");
             var resource1 = new Resource
             {

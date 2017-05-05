@@ -4,9 +4,12 @@ using System.Linq;
 using System.Reflection;
 using Autofac;
 using Monitor.CommandBus;
+using Monitor.Mapping;
 using Monitor.Modules.Index;
+using Monitor.Persistence;
 using Nancy;
 using Nancy.Bootstrappers.Autofac;
+using NHibernate;
 
 namespace Monitor.AutofacConfiguration
 {
@@ -44,7 +47,12 @@ namespace Monitor.AutofacConfiguration
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
-//            builder.Register
+            builder.Register(x => x.Resolve<SessionFactoryProvider>().Create(false)).As<ISessionFactory>()
+                .SingleInstance().AutoActivate();
+
+            builder.Register(x => x.Resolve<AutomapperProvider>().Create(x.Resolve<Configuration>().UrlBasePath))
+                .AsImplementedInterfaces();
+
         }
 
         private void RegisterCommandHandlers(ContainerBuilder builder, IDictionary<Type, Type> commandsToHandlers)
