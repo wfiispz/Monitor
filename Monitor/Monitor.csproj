@@ -130,7 +130,7 @@
     <Compile Include="SensorCommunication\Dto\Metadata.cs" />
     <Compile Include="SensorCommunication\Dto\SensorDefinition.cs" />
     <Compile Include="SensorCommunication\IJsonDeserializer.cs" />
-    <Compile Include="SensorCommunication\IMessageHandler.cs" />
+    <Compile Include="SensorCommunication\ISingleMessageTypeHandler.cs" />
     <Compile Include="SensorCommunication\JsonDeserializer.cs" />
     <Compile Include="SensorCommunication\MetadataHandler.cs" />
     <Compile Include="SensorCommunication\UdateSensorHandler.cs" />

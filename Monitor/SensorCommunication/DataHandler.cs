@@ -3,7 +3,7 @@ using Monitor.SensorCommunication.Dto;
 
 namespace Monitor.SensorCommunication
 {
-    internal class DataHandler : IMessageHandler
+    internal class DataHandler : ISingleMessageTypeHandler
     {
         private readonly IJsonDeserializer _jsonDeserializer;
         private readonly ICommandBus _commandBus;
