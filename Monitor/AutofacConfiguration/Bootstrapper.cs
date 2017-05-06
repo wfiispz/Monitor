@@ -50,7 +50,9 @@ namespace Monitor.AutofacConfiguration
                 .AsImplementedInterfaces()
                 .SingleInstance();
 
-            builder.Register(x => x.Resolve<SessionFactoryProvider>().Create(false)).As<ISessionFactory>()
+            builder.Register(x => x.Resolve<SessionFactoryProvider>()
+                    .Create(false, x.Resolve<Configuration>().DatabaseFilepath))
+                    .As<ISessionFactory>()
                 .SingleInstance().AutoActivate();
 
             builder.Register(x => x.Resolve<AutomapperProvider>().Create())

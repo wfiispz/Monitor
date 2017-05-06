@@ -18,7 +18,7 @@ namespace Monitor.Database
             {
                 Id(x => x.Id);
                 Map(x => x.Guid).Not.Nullable().Unique();
-                Map(x => x.Name).Not.Nullable();
+                Map(x => x.Name).Nullable();
                 Map(x => x.Description).Nullable();
                 HasMany(x => x.Sensors).Cascade.All().Inverse();
             }

@@ -8,10 +8,10 @@ namespace Monitor.Database
 {
     class SessionFactoryProvider
     {
-        public ISessionFactory Create(bool exportSchema)
+        public ISessionFactory Create(bool exportSchema, string dbFilePath)
         {
             return Fluently.Configure()
-                .Database(SQLiteConfiguration.Standard.UsingFile("monitor.db"))
+                .Database(SQLiteConfiguration.Standard.UsingFile(dbFilePath))
                 .Mappings(m => m.FluentMappings.AddFromAssemblyOf<SessionFactoryProvider>()).ExposeConfiguration(BuildSchema(exportSchema))
                 .BuildSessionFactory();
         }
