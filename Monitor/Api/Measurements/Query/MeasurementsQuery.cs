@@ -63,7 +63,7 @@ namespace Monitor.Api.Measurements.Query
             using (var session = _sessionFactory.OpenSession())
             {
                 var query = session.QueryOver<Measurement>()
-                    .Where(x => x.Timestamp > parameters.TimeFrom).And(x => x.Timestamp < parameters.TimeTo)
+                    .Where(x => x.Timestamp > parameters.From).And(x => x.Timestamp < parameters.To)
                     .JoinQueryOver(x => x.Sensor)
                     .Where(x => x.Guid == parameters.Id);
                 var measurementsRowCount = query.RowCount();
