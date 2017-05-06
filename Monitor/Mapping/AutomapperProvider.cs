@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using AutoMapper;
+using Monitor.Api.Measurements.Query;
 using Monitor.Database;
-using Monitor.Modules.Measurements.Query;
 using Sensor = Monitor.Database.Sensor;
 
 namespace Monitor.Mapping
@@ -20,12 +20,12 @@ namespace Monitor.Mapping
             var config =
                 new MapperConfiguration(cfg =>
                 {
-                    cfg.CreateMap<Resource, Modules.Resources.Query.Resource>()
+                    cfg.CreateMap<Resource, Api.Resources.Query.Resource>()
                         .ForMember(x => x.Measurements,
                             opt => opt.MapFrom(
                                 src => src.Sensors.Select(sensor => _pathBuilder.CreateForSensor(sensor.Guid))))
                         .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Guid));
-                    cfg.CreateMap<Sensor, Modules.Measurements.Query.Sensor>()
+                    cfg.CreateMap<Sensor, Api.Measurements.Query.Sensor>()
                         .ForMember(x => x.Host,
                             opt => opt.MapFrom(x => _pathBuilder.CreateForResource(x.Resource.Guid)))
                         .ForMember(x => x.Values, opt => opt.MapFrom(x => _pathBuilder.CreateForValues(x.Guid)));

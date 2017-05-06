@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Monitor.Modules.Resources;
-using Monitor.Modules.Resources.Query;
+using Monitor.Api.Resources.Query;
 using NUnit.Framework;
-using Resource = Monitor.Modules.Resources.Query.Resource;
+using Resource = Monitor.Api.Resources.Query.Resource;
 
 namespace Monitor.UnitTests.Resources
 {
