@@ -79,6 +79,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Sensor\SensorModule.cs" />
     <Compile Include="AutofacConfiguration\Bootstrapper.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="CommandBus\CommandHandlerAttribute.cs" />

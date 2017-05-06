@@ -1,6 +1,6 @@
 namespace Monitor.SensorCommunication
 {
-    internal interface IMessageHandler
+    public interface IMessageHandler
     {
         void Handle(string message);
     }

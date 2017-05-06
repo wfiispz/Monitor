@@ -5,6 +5,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Monitor.Api.Index;
+using Monitor.Api.Sensor;
 using Monitor.CommandBus;
 using Monitor.Config;
 using Monitor.Database;
@@ -61,6 +62,11 @@ namespace Monitor.AutofacConfiguration
                 .AsSelf()
                 .AsImplementedInterfaces();
 
+
+            builder.Register(x => x.Resolve<IConfigurationLoader>().Load())
+                .AsSelf()
+                .AsImplementedInterfaces()
+                .SingleInstance();
         }
 
         private void RegisterCommandHandlers(ContainerBuilder builder, IDictionary<Type, Type> commandsToHandlers)
