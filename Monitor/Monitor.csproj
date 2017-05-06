@@ -131,6 +131,7 @@
     <Compile Include="SensorCommunication\DataType.cs" />
     <Compile Include="SensorCommunication\AddValues\Measurement.cs" />
     <Compile Include="SensorCommunication\AddValues\MeasurementValue.cs" />
+    <Compile Include="SensorCommunication\UdpHost\SensorUdpHost.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\Metadata.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\SensorDefinition.cs" />
     <Compile Include="IJsonDeserializer.cs" />

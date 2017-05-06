@@ -1,6 +1,5 @@
 ﻿using System;
 using Monitor.Config;
-using Monitor.SensorCommunication;
 using Nancy.Hosting.Self;
 
 namespace Monitor

@@ -1,5 +1,7 @@
 ﻿{
   "urlBasePath": "http://localhost:8000",
+  "sensorUdpIp": "127.0.0.1",
+  "sensorUdpPort": 8001, 
   "debugMode": true,
   "databaseFilepath": "Monitor.db"
 }

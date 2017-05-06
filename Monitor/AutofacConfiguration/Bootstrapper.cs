@@ -5,11 +5,11 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Monitor.Api.Index;
-using Monitor.Api.Sensor;
 using Monitor.CommandBus;
 using Monitor.Config;
 using Monitor.Database;
 using Monitor.Mapping;
+using Monitor.SensorCommunication.UdpHost;
 using Nancy;
 using Nancy.Bootstrappers.Autofac;
 using NHibernate;
@@ -64,11 +64,26 @@ namespace Monitor.AutofacConfiguration
                 .AsSelf()
                 .AsImplementedInterfaces();
 
-
             builder.Register(x => x.Resolve<IConfigurationLoader>().Load())
                 .AsSelf()
                 .AsImplementedInterfaces()
                 .SingleInstance();
+
+
+            builder.RegisterType<SensorUdpHost>()
+                .WithParameters(new[]
+                {
+                    new ResolvedParameter(
+                        (info, _) => info.ParameterType == typeof(int),
+                        (_, context) => context.Resolve<Configuration>().SensorUDPPort),
+                    new ResolvedParameter(
+                        (info, _) => info.ParameterType == typeof(string),
+                        (_, context) => context.Resolve<Configuration>().SensorUDPIp)
+                })
+                .AsSelf()
+                .SingleInstance()
+                .OnActivated(x=>x.Instance.Start())
+                .AutoActivate();
         }
 
         private void RegisterCommandHandlers(ContainerBuilder builder, IDictionary<Type, Type> commandsToHandlers)
