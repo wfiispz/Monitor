@@ -100,9 +100,7 @@
     <Compile Include="Modules\Measurements\Query\SensorValue.cs" />
     <Compile Include="Modules\Measurements\ValuesQueryParameters.cs" />
     <Compile Include="Modules\Measurements\Query\ValuesResponse.cs" />
-    <Compile Include="Modules\Resources\CreateResource.cs" />
     <Compile Include="IPathBuilder.cs" />
-    <Compile Include="Modules\Resources\CreateResourceHandler.cs" />
     <Compile Include="Modules\Resources\DeleteResource.cs" />
     <Compile Include="Modules\Resources\DeleteResourceHandler.cs" />
     <Compile Include="Modules\Resources\Query\Resource.cs" />

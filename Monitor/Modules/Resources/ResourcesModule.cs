@@ -6,7 +6,6 @@ using Nancy.ModelBinding;
 
 namespace Monitor.Modules.Resources
 {
-    // todo tests to whole module
     public class ResourcesModule:NancyModule
     {
         private readonly ICommandBus _commandBus;
@@ -19,7 +18,6 @@ namespace Monitor.Modules.Resources
 
             Get["/"] = parameters => HandleGet();
             Get["/{id:guid}"] = parameters => HandleGetById(parameters);
-            Post["/"] = parameters => HandlePost();
             Delete["/{id:guid}"] = parameters => HandleDelete();
         }
 
@@ -39,12 +37,6 @@ namespace Monitor.Modules.Resources
         {
             var parameters = this.Bind<ResourcesQueryParameters>();
             return _resourcesQuery.Get(parameters);
-        }
-
-        private object HandlePost()
-        {
-            var command = this.Bind<CreateResource>();
-            return _commandBus.Handle(command);
         }
     }
 }
