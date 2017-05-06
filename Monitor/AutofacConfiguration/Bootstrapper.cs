@@ -6,6 +6,7 @@ using Autofac;
 using Autofac.Core;
 using Monitor.Api.Index;
 using Monitor.CommandBus;
+using Monitor.Config;
 using Monitor.Database;
 using Monitor.Mapping;
 using Nancy;

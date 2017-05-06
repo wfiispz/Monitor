@@ -10,7 +10,7 @@ namespace Monitor.Api.Measurements
         private readonly IMeasurementsQuery _measurementsQuery;
         private ICommandBus _commandBus;
 
-        internal MeasurementsModule(IMeasurementsQuery measurementsQuery, ICommandBus commandBus):base("/measurements")
+        public MeasurementsModule(IMeasurementsQuery measurementsQuery, ICommandBus commandBus):base("/measurements")
         {
             _measurementsQuery = measurementsQuery;
             _commandBus = commandBus;

@@ -2,7 +2,7 @@
 
 namespace Monitor.Api.Measurements
 {
-    internal class ValuesQueryParameters
+    public class ValuesQueryParameters
     {
         public Guid Id { get; set; }
         public DateTime TimeFrom { get; set; }

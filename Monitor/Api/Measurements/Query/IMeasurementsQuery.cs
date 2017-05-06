@@ -2,7 +2,7 @@ using System;
 
 namespace Monitor.Api.Measurements.Query
 {
-    internal interface IMeasurementsQuery
+    public interface IMeasurementsQuery
     {
         MeasurementsResponse All(MeasurementsQueryParameters queryParameters);
         Sensor GetById(Guid id);

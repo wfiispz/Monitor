@@ -1,4 +1,6 @@
 ﻿using System;
+using Monitor.Config;
+using Monitor.SensorCommunication;
 using Nancy.Hosting.Self;
 
 namespace Monitor
@@ -9,7 +11,8 @@ namespace Monitor
 
         public void Start()
         {
-            _host = new NancyHost(new Uri(new Configuration().UrlBasePath));
+            var configuration = new ConfigurationLoader(new JsonDeserializer()).Load();
+            _host = new NancyHost(new Uri(configuration.UrlBasePath));
             _host.Start();
         }
 
