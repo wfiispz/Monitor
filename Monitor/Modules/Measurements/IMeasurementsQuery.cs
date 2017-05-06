@@ -49,7 +49,17 @@ namespace Monitor.Modules.Measurements
 
         public Sensor GetById(Guid id)
         {
-            throw new NotImplementedException();
+            using (var session = _sessionFactory.OpenSession())
+            {
+                var sensor = session.QueryOver<Database.Sensor>().Where(x => x.Guid == id)
+                    .JoinQueryOver(x => x.Resource)
+                    .SingleOrDefault();
+
+                if(sensor == null)
+                    throw new ArgumentException("measurement with given id not found");
+
+                return _mapper.Map<Sensor>(sensor);
+            }
         }
 
         public ValuesResponse GetValues(Guid id)
