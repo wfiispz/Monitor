@@ -1,4 +1,5 @@
 ﻿using Monitor.CommandBus;
+using Monitor.Modules.Measurements.Query;
 using Nancy;
 using Nancy.ModelBinding;
 

@@ -4,7 +4,7 @@ using AutoMapper;
 using Monitor.Database;
 using NHibernate;
 
-namespace Monitor.Modules.Measurements
+namespace Monitor.Modules.Measurements.Query
 {
     internal class MeasurementsQuery : IMeasurementsQuery
     {

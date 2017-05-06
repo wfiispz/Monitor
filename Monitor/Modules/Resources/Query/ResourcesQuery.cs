@@ -3,7 +3,7 @@ using System.Linq;
 using AutoMapper;
 using NHibernate;
 
-namespace Monitor.Modules.Resources.Get
+namespace Monitor.Modules.Resources.Query
 {
     // todo tests
     class ResourcesQuery : IResourcesQuery

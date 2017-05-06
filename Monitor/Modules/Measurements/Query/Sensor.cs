@@ -1,4 +1,4 @@
-namespace Monitor.Modules.Measurements
+namespace Monitor.Modules.Measurements.Query
 {
     public class Sensor
     {
