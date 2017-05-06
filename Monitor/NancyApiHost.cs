@@ -13,6 +13,7 @@ namespace Monitor
             var configuration = new ConfigurationLoader(new JsonDeserializer()).Load();
             _host = new NancyHost(new Uri(configuration.UrlBasePath));
             _host.Start();
+            Console.Out.WriteLine($"Listening on API endpoint: {configuration.UrlBasePath}");
         }
 
         public void Stop()
