@@ -1,4 +1,4 @@
-﻿namespace Monitor.SensorCommunication
+﻿namespace Monitor
 {
     internal interface IJsonDeserializer
     {

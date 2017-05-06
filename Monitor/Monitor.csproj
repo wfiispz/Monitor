@@ -133,10 +133,10 @@
     <Compile Include="SensorCommunication\AddValues\MeasurementValue.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\Metadata.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\SensorDefinition.cs" />
-    <Compile Include="SensorCommunication\IJsonDeserializer.cs" />
+    <Compile Include="IJsonDeserializer.cs" />
     <Compile Include="SensorCommunication\IMessageHandler.cs" />
     <Compile Include="SensorCommunication\ISingleMessageTypeHandler.cs" />
-    <Compile Include="SensorCommunication\JsonDeserializer.cs" />
+    <Compile Include="JsonDeserializer.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\MetadataHandler.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\UpdateResource.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\UpdateResourceHandler.cs" />
