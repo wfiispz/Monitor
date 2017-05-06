@@ -21,8 +21,8 @@ namespace Monitor.Database
             {
                 Id(x => x.Id);
                 Map(x => x.Guid).Not.Nullable().Unique();
-                Map(x => x.Metric).Not.Nullable();
-                Map(x => x.Unit).Not.Nullable();
+                Map(x => x.Metric).Nullable();
+                Map(x => x.Unit).Nullable();
                 Map(x => x.Complex).Not.Nullable();
 
                 References(x => x.Resource)

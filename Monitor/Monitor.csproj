@@ -138,8 +138,8 @@
     <Compile Include="SensorCommunication\ISingleMessageTypeHandler.cs" />
     <Compile Include="SensorCommunication\JsonDeserializer.cs" />
     <Compile Include="SensorCommunication\UpdateSensor\MetadataHandler.cs" />
-    <Compile Include="SensorCommunication\UpdateSensor\UdateSensorHandler.cs" />
-    <Compile Include="SensorCommunication\UpdateSensor\UpdateSensor.cs" />
+    <Compile Include="SensorCommunication\UpdateSensor\UpdateResource.cs" />
+    <Compile Include="SensorCommunication\UpdateSensor\UpdateResourceHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

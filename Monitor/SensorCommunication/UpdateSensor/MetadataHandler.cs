@@ -1,4 +1,5 @@
-﻿using Monitor.CommandBus;
+﻿using AutoMapper;
+using Monitor.CommandBus;
 
 namespace Monitor.SensorCommunication.UpdateSensor
 {
@@ -6,11 +7,13 @@ namespace Monitor.SensorCommunication.UpdateSensor
     {
         private readonly IJsonDeserializer _jsonDeserializer;
         private readonly ICommandBus _commandBus;
+        private readonly IMapper _mapper;
 
-        public MetadataHandler(IJsonDeserializer jsonDeserializer, ICommandBus commandBus)
+        public MetadataHandler(IJsonDeserializer jsonDeserializer, ICommandBus commandBus, IMapper mapper)
         {
             _jsonDeserializer = jsonDeserializer;
             _commandBus = commandBus;
+            _mapper = mapper;
         }
 
         public DataType SupportedType => DataType.Metadata;
@@ -18,18 +21,8 @@ namespace Monitor.SensorCommunication.UpdateSensor
         public void Handle(string message)
         {
             var deserializedMessage = _jsonDeserializer.Deserialize<Metadata>(message);
-
-            foreach (var sensorDefinition in deserializedMessage.MeasuresArray)
-            {
-                var updateSensor = new UpdateSensor
-                {
-                    ResourceGuid = deserializedMessage.ResourceId,
-                    SensorGuid = sensorDefinition.MeasureId,
-                    Unit = sensorDefinition.Unit,
-                    Metric = sensorDefinition.MeasureType
-                };
-                _commandBus.Handle(updateSensor);
-            }
+            var updateResource = _mapper.Map<UpdateResource>(deserializedMessage);
+            _commandBus.Handle(updateResource);
         }
     }
 }
