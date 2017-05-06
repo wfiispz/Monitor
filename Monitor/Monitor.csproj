@@ -89,6 +89,17 @@
     <Compile Include="Modules\Index\IndexModule.cs" />
     <Compile Include="Modules\Index\IRepeater.cs" />
     <Compile Include="Modules\Index\Repeater.cs" />
+    <Compile Include="Modules\Measurements\DeleteValues.cs" />
+    <Compile Include="Modules\Measurements\DeleteValuesHandler.cs" />
+    <Compile Include="Modules\Measurements\IMeasurementsQuery.cs" />
+    <Compile Include="Modules\Measurements\MeasurementsModule.cs" />
+    <Compile Include="Modules\Measurements\MeasurementsQuery.cs" />
+    <Compile Include="Modules\Measurements\MeasurementsQueryParameters.cs" />
+    <Compile Include="Modules\Measurements\MeasurementsResponse.cs" />
+    <Compile Include="Modules\Measurements\Sensor.cs" />
+    <Compile Include="Modules\Measurements\SensorValue.cs" />
+    <Compile Include="Modules\Measurements\ValuesQueryParameters.cs" />
+    <Compile Include="Modules\Measurements\ValuesResponse.cs" />
     <Compile Include="Modules\Resources\CreateResource.cs" />
     <Compile Include="IPathBuilder.cs" />
     <Compile Include="Modules\Resources\CreateResourceHandler.cs" />
