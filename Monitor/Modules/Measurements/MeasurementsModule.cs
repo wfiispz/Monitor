@@ -19,7 +19,11 @@ namespace Monitor.Modules.Measurements
                 return _measurementsQuery.All(queryParameters);
             };
             Get["/{id:guid}"] = parameters => _measurementsQuery.GetById(parameters.Id);
-            Get["/{id:guid}/values"] = parameters => _measurementsQuery.GetValues(parameters.Id);
+            Get["/{id:guid}/values"] = _ =>
+            {
+                var parameters = this.Bind<ValuesQueryParameters>();
+                return _measurementsQuery.GetValues(parameters);
+            };
             Delete["/{id:guid}/values"] = _ =>
             {
                 var command = this.Bind<DeleteValues>();

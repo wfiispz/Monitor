@@ -27,6 +27,7 @@ namespace Monitor.Mapping
                         .ForMember(x => x.Host,
                             opt => opt.MapFrom(x => _pathBuilder.CreateForResource(x.Resource.Guid)))
                         .ForMember(x => x.Values, opt => opt.MapFrom(x => _pathBuilder.CreateForValues(x.Guid)));
+                    cfg.CreateMap<Database.Measurement, Modules.Measurements.SensorValue>();
                 });
             var mapper = config.CreateMapper();
             return mapper;
