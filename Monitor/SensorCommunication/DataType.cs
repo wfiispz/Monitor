@@ -1,4 +1,4 @@
-namespace Monitor.SensorCommunication.Dto
+namespace Monitor.SensorCommunication
 {
     public enum DataType
     {

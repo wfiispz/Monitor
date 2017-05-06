@@ -1,7 +1,7 @@
 using System;
 using Monitor.CommandBus;
 
-namespace Monitor.SensorCommunication
+namespace Monitor.SensorCommunication.UpdateSensor
 {
     internal class UpdateSensor : ICommand
     {

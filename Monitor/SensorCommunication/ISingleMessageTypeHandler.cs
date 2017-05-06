@@ -1,5 +1,3 @@
-using Monitor.SensorCommunication.Dto;
-
 namespace Monitor.SensorCommunication
 {
     interface ISingleMessageTypeHandler

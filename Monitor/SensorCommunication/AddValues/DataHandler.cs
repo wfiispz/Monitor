@@ -1,7 +1,6 @@
 ﻿using Monitor.CommandBus;
-using Monitor.SensorCommunication.Dto;
 
-namespace Monitor.SensorCommunication
+namespace Monitor.SensorCommunication.AddValues
 {
     internal class DataHandler : ISingleMessageTypeHandler
     {

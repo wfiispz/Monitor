@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Monitor.SensorCommunication.Dto
+namespace Monitor.SensorCommunication.UpdateSensor
 {
     public class Metadata
     {
