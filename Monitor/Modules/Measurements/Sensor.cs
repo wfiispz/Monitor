@@ -6,7 +6,7 @@ namespace Monitor.Modules.Measurements
         public string Metric { get; set; }
         public string Unit { get; set; }
         public bool Complex { get; set; }
-        public float MaxValue { get; set; }
+//        public float MaxValue { get; set; }
         public string Values { get; set; }
     }
 }

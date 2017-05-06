@@ -16,5 +16,15 @@ namespace Monitor
         {
             return $"{_urlBasePath}/measurements/{guid}";
         }
+
+        public string CreateForResource(Guid guid)
+        {
+            return $"{_urlBasePath}/resources/{guid}";
+        }
+
+        public string CreateForValues(Guid guid)
+        {
+            return $"{_urlBasePath}/resources/{guid}/values";
+        }
     }
 }

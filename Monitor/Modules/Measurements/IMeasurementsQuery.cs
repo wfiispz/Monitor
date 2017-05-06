@@ -26,7 +26,25 @@ namespace Monitor.Modules.Measurements
 
         public MeasurementsResponse All(MeasurementsQueryParameters queryParameters)
         {
-            throw new NotImplementedException();
+            using (var session = _sessionFactory.OpenSession())
+            {
+                var sensors = session.QueryOver<Database.Sensor>()
+                    .Skip((queryParameters.Page - 1) * queryParameters.PageSize)
+                    .Take(queryParameters.PageSize).List();
+
+                var rowCount = session.QueryOver<Database.Sensor>().RowCount();
+
+                return new MeasurementsResponse
+                {
+                    Measurements = sensors.Select(x => _mapper.Map<Sensor>(x)).ToArray(),
+                    Page = new PageDetails
+                    {
+                        TotalCount = rowCount,
+                        Size = queryParameters.PageSize,
+                        Number = queryParameters.Page
+                    }
+                };
+            }
         }
 
         public Sensor GetById(Guid id)
