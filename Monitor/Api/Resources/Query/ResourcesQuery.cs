@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using AutoMapper;
 using NHibernate;
+using NHibernate.Criterion;
 
 namespace Monitor.Api.Resources.Query
 {
@@ -35,13 +36,15 @@ namespace Monitor.Api.Resources.Query
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                var resources = session.QueryOver<Database.Resource>()
-                    .Skip(parameters.PageSize * (parameters.Page - 1))
+                var query = session.QueryOver<Database.Resource>();
+                if (!string.IsNullOrWhiteSpace(parameters.Name))
+                    query = query.Where(Expression.Like("Name", $"%{parameters.Name}%"));
+
+                var resourcesCount = query.RowCount();
+
+                var resources = query.Skip(parameters.PageSize * (parameters.Page - 1))
                     .Take(parameters.PageSize)
                     .List();
-
-                var resourcesCount = session.QueryOver<Database.Resource>()
-                    .RowCount();
 
                 return new ResourcesResponse
                 {
