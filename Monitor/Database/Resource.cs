@@ -12,6 +12,11 @@ namespace Monitor.Database
         public virtual string Description { get; set; }
         public virtual IList<Sensor> Sensors {get;set;}
 
+        public Resource()
+        {
+            Sensors = new List<Sensor>();
+        }
+
         public class ResourceMap : ClassMap<Resource>
         {
             public ResourceMap()

@@ -47,6 +47,7 @@ namespace Monitor.SensorCommunication.UpdateSensor
             sensor.Resource = resource;
             sensor.Metric = sensorDefinition.MeasureType;
             sensor.Unit = sensorDefinition.Unit;
+            sensor.MaxValue = sensorDefinition.MaxValue;
             session.SaveOrUpdate(sensor);
         }
 

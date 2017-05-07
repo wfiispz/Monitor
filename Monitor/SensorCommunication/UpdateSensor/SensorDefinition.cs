@@ -6,6 +6,7 @@ namespace Monitor.SensorCommunication.UpdateSensor
     {
         public string MeasureType { get; set; }
         public string Unit { get; set; }
+        public float MaxValue { get; set; }
         public Guid MeasureId { get; set; }
     }
 }
