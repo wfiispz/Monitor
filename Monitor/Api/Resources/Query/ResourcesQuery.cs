@@ -36,7 +36,6 @@ namespace Monitor.Api.Resources.Query
             using (var session = _sessionFactory.OpenSession())
             {
                 var resources = session.QueryOver<Database.Resource>()
-                    .JoinQueryOver(x=>x.Sensors)
                     .Skip(parameters.PageSize * (parameters.Page - 1))
                     .Take(parameters.PageSize)
                     .List();

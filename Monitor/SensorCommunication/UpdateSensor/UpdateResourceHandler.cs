@@ -41,10 +41,10 @@ namespace Monitor.SensorCommunication.UpdateSensor
                 sensor = new Sensor
                 {
                     Guid = sensorDefinition.MeasureId,
-                    Resource = resource
                 };
             }
 
+            sensor.Resource = resource;
             sensor.Metric = sensorDefinition.MeasureType;
             sensor.Unit = sensorDefinition.Unit;
             session.SaveOrUpdate(sensor);

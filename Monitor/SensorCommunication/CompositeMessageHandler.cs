@@ -20,7 +20,7 @@ namespace Monitor.SensorCommunication
         public void Handle(string message)
         {
             var json = _jsonDeserializer.Deserialize<JObject>(message);
-            var dataType = (DataType) Enum.Parse(typeof(DataType), json["dataType"].ToString());
+            var dataType = (DataType) Enum.Parse(typeof(DataType), json["datatype"].ToString(), true);
             _handlers[dataType].Handle(message);
         }
     }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Globalization;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 
 namespace Monitor
@@ -10,9 +11,10 @@ namespace Monitor
             return JsonConvert.DeserializeObject<T>(value, _converters);
         }
 
-        private readonly JsonConverter[] _converters =
+        private static readonly JsonConverter[] _converters =
         {
-            new StringEnumConverter()
+            new StringEnumConverter(),
+            new IsoDateTimeConverter(){DateTimeFormat = "yyyy-MM-dd_hh:mm:ss",DateTimeStyles = DateTimeStyles.AssumeLocal}
         };
     }
 }

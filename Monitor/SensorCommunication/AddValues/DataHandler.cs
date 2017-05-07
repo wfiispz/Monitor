@@ -18,7 +18,7 @@ namespace Monitor.SensorCommunication.AddValues
         {
             var deserializedMessage = _jsonDeserializer.Deserialize<Measurement>(message);
 
-            foreach (var measurementValue in deserializedMessage.MesauresArray)
+            foreach (var measurementValue in deserializedMessage.MeasuresArray)
             {
                 var addMeasurement = new AddMeasurement()
                 {
