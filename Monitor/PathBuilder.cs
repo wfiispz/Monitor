@@ -24,7 +24,7 @@ namespace Monitor
 
         public string CreateForValues(Guid guid)
         {
-            return $"{_urlBasePath}/resources/{guid}/values";
+            return $"{_urlBasePath}/measurements/{guid}/values";
         }
     }
 }
