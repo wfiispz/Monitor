@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using AutoMapper;
 using Monitor.Database;
+using Monitor.Modules.Measurements.Query;
+using Sensor = Monitor.Database.Sensor;
 
 namespace Monitor.Mapping
 {
-    class AutomapperProvider
+    internal class AutomapperProvider
     {
         private readonly IPathBuilder _pathBuilder;
 
@@ -16,11 +18,19 @@ namespace Monitor.Mapping
         public IMapper Create()
         {
             var config =
-                new MapperConfiguration(cfg => cfg.CreateMap<Resource, Modules.Resources.Get.Resource>()
-                    .ForMember(x => x.Measurements,
-                        opt => opt.MapFrom(
-                            src => src.Sensors.Select(sensor => _pathBuilder.CreateForSensor(sensor.Guid))))
-                    .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Guid)));
+                new MapperConfiguration(cfg =>
+                {
+                    cfg.CreateMap<Resource, Modules.Resources.Query.Resource>()
+                        .ForMember(x => x.Measurements,
+                            opt => opt.MapFrom(
+                                src => src.Sensors.Select(sensor => _pathBuilder.CreateForSensor(sensor.Guid))))
+                        .ForMember(x => x.Id, opt => opt.MapFrom(x => x.Guid));
+                    cfg.CreateMap<Sensor, Modules.Measurements.Query.Sensor>()
+                        .ForMember(x => x.Host,
+                            opt => opt.MapFrom(x => _pathBuilder.CreateForResource(x.Resource.Guid)))
+                        .ForMember(x => x.Values, opt => opt.MapFrom(x => _pathBuilder.CreateForValues(x.Guid)));
+                    cfg.CreateMap<Database.Measurement, SensorValue>();
+                });
             var mapper = config.CreateMapper();
             return mapper;
         }

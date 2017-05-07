@@ -3,7 +3,7 @@ using System.Linq;
 using AutoMapper;
 using NHibernate;
 
-namespace Monitor.Modules.Resources.Get
+namespace Monitor.Modules.Resources.Query
 {
     // todo tests
     class ResourcesQuery : IResourcesQuery
@@ -23,6 +23,9 @@ namespace Monitor.Modules.Resources.Get
             {
                 var resource = session.QueryOver<Database.Resource>().Where(x => x.Guid == guid)
                     .JoinQueryOver(x => x.Sensors).SingleOrDefault();
+                
+                if (resource==null)
+                    throw new ArgumentException("resource with given guid does not exist");
 
                 return _mapper.Map<Resource>(resource);
             }

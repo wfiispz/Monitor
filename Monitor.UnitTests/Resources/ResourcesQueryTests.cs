@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Monitor.Modules.Resources;
-using Monitor.Modules.Resources.Get;
+using Monitor.Modules.Resources.Query;
 using NUnit.Framework;
-using Resource = Monitor.Modules.Resources.Get.Resource;
+using Resource = Monitor.Modules.Resources.Query.Resource;
 
 namespace Monitor.UnitTests.Resources
 {
@@ -61,7 +61,7 @@ namespace Monitor.UnitTests.Resources
             }, new ResourcesResponse
             {
                 Page = new PageDetails {Number = 1, Size = 100, TotalCount = 0},
-                Resources = new Modules.Resources.Get.Resource[0]
+                Resources = new Resource[0]
             }).SetName("Empty result");
             var resource1 = new Resource
             {

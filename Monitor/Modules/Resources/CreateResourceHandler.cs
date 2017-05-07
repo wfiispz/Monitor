@@ -37,7 +37,7 @@ namespace Monitor.Modules.Resources
 
                     transaction.Commit();
 
-                    return new Get.Resource
+                    return new Query.Resource
                     {
                         Id = guid,
                         Name = command.Name,

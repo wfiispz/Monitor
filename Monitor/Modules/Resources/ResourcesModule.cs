@@ -1,6 +1,6 @@
 ﻿using System;
 using Monitor.CommandBus;
-using Monitor.Modules.Resources.Get;
+using Monitor.Modules.Resources.Query;
 using Nancy;
 using Nancy.ModelBinding;
 

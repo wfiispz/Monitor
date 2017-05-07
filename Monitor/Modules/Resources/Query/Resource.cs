@@ -1,6 +1,6 @@
 using System;
 
-namespace Monitor.Modules.Resources.Get
+namespace Monitor.Modules.Resources.Query
 {
     public class Resource
     {
