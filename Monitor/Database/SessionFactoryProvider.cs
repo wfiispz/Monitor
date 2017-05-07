@@ -20,7 +20,7 @@ namespace Monitor.Database
         {
             return config =>
             {
-                new SchemaExport(config).Create(true, exportSchema);
+                new SchemaExport(config).Create(false, exportSchema);
             };
         }
     }
