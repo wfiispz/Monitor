@@ -11,6 +11,7 @@ using Monitor.Database;
 using Monitor.Mapping;
 using Monitor.SensorCommunication.UdpHost;
 using Nancy;
+using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
 using NHibernate;
 
@@ -28,6 +29,12 @@ namespace Monitor.AutofacConfiguration
         protected override void ConfigureApplicationContainer(ILifetimeScope container)
         {
             container.Update(builder => RegisterAssemblyTypes(builder,typeof(IndexModule).Assembly));
+        }
+
+        protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
+        {
+            var udpHost = container.Resolve<SensorUdpHost>();
+            udpHost.Start();
         }
 
         private void RegisterAssemblyTypes(ContainerBuilder builder, Assembly assembly)
@@ -81,9 +88,7 @@ namespace Monitor.AutofacConfiguration
                         (_, context) => context.Resolve<Configuration>().SensorUDPIp)
                 })
                 .AsSelf()
-                .SingleInstance()
-                .OnActivated(x=>x.Instance.Start())
-                .AutoActivate();
+                .SingleInstance();
         }
 
         private void RegisterCommandHandlers(ContainerBuilder builder, IDictionary<Type, Type> commandsToHandlers)
