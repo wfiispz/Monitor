@@ -1,133 +1,55 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
+using System.Text;
 using Autofac;
-using Autofac.Core;
-using Monitor.Api.Index;
-using Monitor.CommandBus;
-using Monitor.Config;
-using Monitor.Database;
-using Monitor.Mapping;
+using Monitor.Logging;
 using Monitor.SensorCommunication.UdpHost;
 using Nancy;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
-using NHibernate;
+using Nancy.Extensions;
 
 namespace Monitor.AutofacConfiguration
 {
     public class Bootstrapper:AutofacNancyBootstrapper
     {
-        private static readonly IList<Func<Type,bool>> RegistrationExcludePredicates = new List<Func<Type, bool>>()
-        {
-            IsAbstract,
-            IsNancyModule,
-            IsBootstrapper
-        };
+        private readonly ComponentsRegistrar _componentsRegistrar = new ComponentsRegistrar();
 
         protected override void ConfigureApplicationContainer(ILifetimeScope container)
         {
-            container.Update(builder => RegisterAssemblyTypes(builder,typeof(IndexModule).Assembly));
+            container.Update(builder => _componentsRegistrar.RegisterTypes(builder));
         }
 
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
+            var logger = container.Resolve<ILogger>();
+            pipelines.BeforeRequest += (context, cancellationToken) =>
+            {
+
+                logger.LogInfo($"Processing HTTP request: {Environment.NewLine}{BuildString(context.Request)}");
+                return null;
+            };
+
+            pipelines.AfterRequest += context =>
+            {
+                logger.LogInfo($"Returning response: {context.Response.StatusCode}");
+            };
+
             var udpHost = container.Resolve<SensorUdpHost>();
             udpHost.Start();
         }
 
-        private void RegisterAssemblyTypes(ContainerBuilder builder, Assembly assembly)
+        private string BuildString(Request request)
         {
-            foreach (var type in assembly.GetTypes().Where(type=>RegistrationExcludePredicates.Any(x => x(type))==false))
+            var builder = new StringBuilder();
+
+            builder.AppendFormat("{0} {1}{2}", request.Method, request.Path, Environment.NewLine);
+            builder.AppendFormat("Headers:{0}", Environment.NewLine);
+            foreach (var header in request.Headers)
             {
-                builder.RegisterType(type)
-                    .AsImplementedInterfaces()
-                    .AsSelf();
+                builder.AppendFormat("{0}: {1}{2}", header.Key, header.Value, Environment.NewLine);
             }
-            var commandsToHandlers = AssignCommandsToHandlers(assembly);
-            RegisterCommandHandlers(builder,commandsToHandlers);
-            AddCustomRegistrations(builder);
-        }
-
-        private void AddCustomRegistrations(ContainerBuilder builder)
-        {
-            builder.RegisterType<SimpleBus>()
-                .AsSelf()
-                .AsImplementedInterfaces()
-                .SingleInstance();
-
-            builder.Register(x => x.Resolve<SessionFactoryProvider>()
-                    .Create(false, x.Resolve<Configuration>().DatabaseFilepath))
-                    .As<ISessionFactory>()
-                .SingleInstance().AutoActivate();
-
-            builder.Register(x => x.Resolve<AutomapperProvider>().Create())
-                .AsImplementedInterfaces();
-
-            builder.RegisterType<PathBuilder>().WithParameter(new ResolvedParameter(
-                (info, _) => info.Name == "urlBasePath",
-                (_, context) => context.Resolve<Configuration>().UrlBasePath))
-                .AsSelf()
-                .AsImplementedInterfaces();
-
-            builder.Register(x => x.Resolve<IConfigurationLoader>().Load())
-                .AsSelf()
-                .AsImplementedInterfaces()
-                .SingleInstance();
-
-
-            builder.RegisterType<SensorUdpHost>()
-                .WithParameters(new[]
-                {
-                    new ResolvedParameter(
-                        (info, _) => info.ParameterType == typeof(int),
-                        (_, context) => context.Resolve<Configuration>().SensorUDPPort),
-                    new ResolvedParameter(
-                        (info, _) => info.ParameterType == typeof(string),
-                        (_, context) => context.Resolve<Configuration>().SensorUDPIp)
-                })
-                .AsSelf()
-                .SingleInstance();
-        }
-
-        private void RegisterCommandHandlers(ContainerBuilder builder, IDictionary<Type, Type> commandsToHandlers)
-        {
-            foreach (var commandToHandler in commandsToHandlers)
-            {
-                builder.RegisterType(commandToHandler.Value)
-                    .AsSelf()
-                    .AsImplementedInterfaces()
-                    .Keyed<IHandleCommand>(commandToHandler.Key);
-            }
-        }
-
-        private IDictionary<Type,Type> AssignCommandsToHandlers(Assembly assembly)
-        {
-            var commandHandlers =
-                assembly.GetTypes().Where(type => type.IsAbstract == false && type.IsAssignableTo<IHandleCommand>());
-            var commandsToHandlers = new Dictionary<Type,Type>();
-            foreach (var commandHandler in commandHandlers)
-            {
-                commandsToHandlers.Add(commandHandler.GetCustomAttribute<CommandHandlerAttribute>().CommandType,
-                    commandHandler);
-            }
-            return commandsToHandlers;
-        }
-
-        private static bool IsBootstrapper(Type arg)
-        {
-            return arg == typeof(Bootstrapper);
-        }
-
-        private static bool IsNancyModule(Type arg)
-        {
-            return arg.IsAssignableTo<NancyModule>();
-        }
-
-        private static bool IsAbstract(Type arg)
-        {
-            return arg.IsAbstract;
+            builder.AppendLine(request.Body.AsString());
+            return builder.ToString();
         }
     }
 }

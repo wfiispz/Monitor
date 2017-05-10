@@ -81,6 +81,7 @@
   <ItemGroup>
     <Compile Include="Api\Sensor\SensorModule.cs" />
     <Compile Include="AutofacConfiguration\Bootstrapper.cs" />
+    <Compile Include="AutofacConfiguration\ComponentsRegistrar.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="CommandBus\CommandHandlerAttribute.cs" />
     <Compile Include="CommandBus\ICommand.cs" />
