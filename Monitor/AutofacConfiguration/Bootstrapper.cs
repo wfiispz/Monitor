@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using Autofac;
 using Monitor.Logging;
@@ -21,35 +22,16 @@ namespace Monitor.AutofacConfiguration
 
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
+            StaticConfiguration.DisableErrorTraces = false;
             var logger = container.Resolve<ILogger>();
-            pipelines.BeforeRequest += (context, cancellationToken) =>
+            pipelines.OnError += (context, exception) =>
             {
-
-                logger.LogInfo($"Processing HTTP request: {Environment.NewLine}{BuildString(context.Request)}");
-                return null;
-            };
-
-            pipelines.AfterRequest += context =>
-            {
-                logger.LogInfo($"Returning response: {context.Response.StatusCode}");
+                logger.LogError("Something is no yes", exception);
+                return null; 
             };
 
             var udpHost = container.Resolve<SensorUdpHost>();
             udpHost.Start();
-        }
-
-        private string BuildString(Request request)
-        {
-            var builder = new StringBuilder();
-
-            builder.AppendFormat("{0} {1}{2}", request.Method, request.Path, Environment.NewLine);
-            builder.AppendFormat("Headers:{0}", Environment.NewLine);
-            foreach (var header in request.Headers)
-            {
-                builder.AppendFormat("{0}: {1}{2}", header.Key, header.Value, Environment.NewLine);
-            }
-            builder.AppendLine(request.Body.AsString());
-            return builder.ToString();
         }
     }
 }
