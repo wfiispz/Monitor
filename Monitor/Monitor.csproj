@@ -89,6 +89,8 @@
     <Compile Include="CommandBus\SimpleBus.cs" />
     <Compile Include="Config\ConfigurationLoader.cs" />
     <Compile Include="Config\IConfigurationLoader.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Mapping\AutomapperProvider.cs" />
     <Compile Include="Api\Index\IndexCommand.cs" />
     <Compile Include="Api\Index\IndexHandler.cs" />
