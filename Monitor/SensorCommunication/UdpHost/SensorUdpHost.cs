@@ -30,15 +30,11 @@ namespace Monitor.SensorCommunication.UdpHost
 
             Task.Factory.StartNew(() =>
             {
-                try
+                while (true)
                 {
                     var data = udpClient.Receive(ref sender);
                     var message = Encoding.UTF8.GetString(data);
                     _messageHandler.Handle(message);
-                }
-                catch (Exception exception)
-                {
-                    Console.Out.WriteLine($"Error while receiving/processing data from sensor: {exception}");
                 }
             });
 
