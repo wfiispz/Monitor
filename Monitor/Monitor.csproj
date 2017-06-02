@@ -79,6 +79,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Api\Measurements\CreateComplexMeasurement.cs" />
+    <Compile Include="Api\Measurements\CreateComplexMeasurementHandler.cs" />
+    <Compile Include="Api\Measurements\DeleteComplexMetric.cs" />
+    <Compile Include="Api\Measurements\DeleteComplexMetricHandler.cs" />
     <Compile Include="Api\Sensor\SensorModule.cs" />
     <Compile Include="AutofacConfiguration\Bootstrapper.cs" />
     <Compile Include="AutofacConfiguration\ComponentsRegistrar.cs" />
