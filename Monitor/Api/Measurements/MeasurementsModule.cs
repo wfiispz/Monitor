@@ -1,4 +1,6 @@
-﻿using Monitor.Api.Measurements.Query;
+﻿using System;
+using Monitor.Api.Measurements.Query;
+using Monitor.Api.Resources;
 using Monitor.CommandBus;
 using Nancy;
 using Nancy.ModelBinding;
@@ -31,6 +33,19 @@ namespace Monitor.Api.Measurements
                 return _commandBus.Handle(command);
             };
 
+            Post["/"] = parameters =>
+            {
+                var command = this.Bind<CreateComplexMeasurement>();
+                return _commandBus.Handle(command);
+            };
+            Delete["/{id:guid}"] = parameters =>
+            {
+                var command = new DeleteComplexMetric
+                {
+                    Id = (Guid) parameters.id
+                };
+                return _commandBus.Handle(command);
+            };
         }
     }
 }
