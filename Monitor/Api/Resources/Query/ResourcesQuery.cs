@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using AutoMapper;
+using Monitor.Database;
 using NHibernate;
 using NHibernate.Criterion;
 
@@ -11,11 +12,13 @@ namespace Monitor.Api.Resources.Query
     {
         private readonly ISessionFactory _sessionFactory;
         private readonly IMapper _mapper;
+        private readonly IPathBuilder _pathBuilder;
 
-        public ResourcesQuery(ISessionFactory sessionFactory, IMapper mapper)
+        public ResourcesQuery(ISessionFactory sessionFactory, IMapper mapper, IPathBuilder pathBuilder)
         {
             _sessionFactory = sessionFactory;
             _mapper = mapper;
+            _pathBuilder = pathBuilder;
         }
 
         public Resource GetById(Guid guid)
@@ -23,12 +26,24 @@ namespace Monitor.Api.Resources.Query
             using (var session = _sessionFactory.OpenSession())
             {
                 var resource = session.QueryOver<Database.Resource>().Where(x => x.Guid == guid)
-                    .JoinQueryOver(x => x.Sensors).SingleOrDefault();
-                
+                    .JoinQueryOver(x => x.Sensors)
+                    .SingleOrDefault();
+
+                var complexMetrics = session.QueryOver<ComplexMetric>()
+                    .JoinQueryOver(x => x.Sensor)
+                    .JoinQueryOver(x => x.Resource)
+                    .Where(x => x.Guid == guid).List()
+                    .Select(x=>x.Guid);
+
                 if (resource==null)
                     throw new ArgumentException("resource with given guid does not exist");
 
-                return _mapper.Map<Resource>(resource);
+                var mappedResource = _mapper.Map<Resource>(resource);
+
+                mappedResource.Measurements = mappedResource.Measurements
+                    .Concat(complexMetrics.Select(x => _pathBuilder.CreateForSensor(x))).ToArray();
+
+                return mappedResource;
             }
         }
 

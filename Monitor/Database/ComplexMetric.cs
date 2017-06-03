@@ -11,7 +11,7 @@ namespace Monitor.Database
         public virtual int Frequency { get; set; }
         public virtual int WindowSize { get; set; }
         public virtual DateTime TimeStart { get; set; }
-        public string Description { get; set; }
+        public virtual string Description { get; set; }
 
         public class ComplexMetricMap : ClassMap<ComplexMetric>
         {

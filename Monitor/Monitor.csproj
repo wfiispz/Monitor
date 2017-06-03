@@ -83,6 +83,10 @@
     <Compile Include="Api\Measurements\CreateComplexMeasurementHandler.cs" />
     <Compile Include="Api\Measurements\DeleteComplexMetric.cs" />
     <Compile Include="Api\Measurements\DeleteComplexMetricHandler.cs" />
+    <Compile Include="Api\Measurements\Query\ComplexMetricValuesRetriever.cs" />
+    <Compile Include="Api\Measurements\Query\IComplexMetricValuesRetriever.cs" />
+    <Compile Include="Api\Measurements\Query\ISimpleMetricValuesRetriever.cs" />
+    <Compile Include="Api\Measurements\Query\SimpleMetricValuesRetriever.cs" />
     <Compile Include="Api\Sensor\SensorModule.cs" />
     <Compile Include="AutofacConfiguration\Bootstrapper.cs" />
     <Compile Include="AutofacConfiguration\ComponentsRegistrar.cs" />
