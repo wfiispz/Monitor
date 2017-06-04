@@ -30,8 +30,7 @@ namespace Monitor.AutofacConfiguration
             StaticConfiguration.DisableErrorTraces = false;
             var config = container.Resolve<Configuration>();
 
-            if (config.RequireAuthentication)
-                EnableAuthentication(container, pipelines);
+            EnableAuthentication(container, pipelines);
 
             if (config.LogFullHttp)
                 EnableLogging(container, pipelines);

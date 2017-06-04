@@ -8,7 +8,6 @@ namespace Monitor.Config
         public int SensorUDPPort { get; set; }
         public bool DebugMode { get; set; }
         public bool LogFullHttp { get; set; }
-        public bool RequireAuthentication { get; set; }
         public string Username { get; set; }
         public string Password { get; set; }
     }

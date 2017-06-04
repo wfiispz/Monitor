@@ -5,7 +5,6 @@
   "debugMode": true,
   "databaseFilepath": "Monitor.db",
   "logFullHttp": true,
-  "requireAuthentication": true,
   "username": "user",
   "password": "password" 
 }
