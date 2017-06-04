@@ -3,5 +3,6 @@
   "sensorUdpIp": "127.0.0.1",
   "sensorUdpPort": 8001, 
   "debugMode": true,
-  "databaseFilepath": "Monitor.db"
+  "databaseFilepath": "Monitor.db",
+  "logFullHttp": true
 }

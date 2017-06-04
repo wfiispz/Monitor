@@ -7,5 +7,6 @@ namespace Monitor.Config
         public string SensorUDPIp { get; set; }
         public int SensorUDPPort { get; set; }
         public bool DebugMode { get; set; }
+        public bool LogFullHttp { get; set; }
     }
 }

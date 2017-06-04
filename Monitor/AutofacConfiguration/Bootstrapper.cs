@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using Autofac;
+using Monitor.Config;
 using Monitor.Logging;
 using Monitor.SensorCommunication.UdpHost;
 using Nancy;
@@ -31,17 +31,23 @@ namespace Monitor.AutofacConfiguration
 
         protected override void RequestStartup(ILifetimeScope container, IPipelines pipelines, NancyContext ctx)
         {
-            var logger = container.Resolve<ILogger>();
-            pipelines.OnError.AddItemToStartOfPipeline((context, exception) =>
+            var logFullHttp = container.Resolve<Configuration>().LogFullHttp;
+            if (logFullHttp)
             {
-                logger.LogError("Something is no yes", exception);
-                return null;
-            });
+                var logger = container.Resolve<ILogger>();
 
-            pipelines.AfterRequest.AddItemToEndOfPipeline(context =>
-            {
-                logger.LogInfo($"Processed HTTP request: {Environment.NewLine}{BuildString(context.Request)}{Environment.NewLine}Returning response: {BuildString(context.Response)}");
-            });
+                pipelines.OnError.AddItemToStartOfPipeline((context, exception) =>
+                {
+                    logger.LogError("Something is no yes", exception);
+                    return null;
+                });
+
+                pipelines.AfterRequest.AddItemToEndOfPipeline(context =>
+                {
+                    logger.LogInfo(
+                        $"Processed HTTP request: {Environment.NewLine}{BuildString(context.Request)}{Environment.NewLine}Returning response: {BuildString(context.Response)}");
+                });
+            }
         }
 
         private string BuildString(Response response)
