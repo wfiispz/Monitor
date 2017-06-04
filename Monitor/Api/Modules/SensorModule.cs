@@ -3,7 +3,7 @@ using Monitor.SensorCommunication;
 using Nancy;
 using Nancy.Extensions;
 
-namespace Monitor.Api.Sensor
+namespace Monitor.Api.Modules
 {
     public class SensorModule:NancyModule
     {

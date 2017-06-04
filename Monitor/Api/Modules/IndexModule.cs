@@ -1,9 +1,11 @@
 ﻿using System;
+using Monitor.Api.Auth;
+using Monitor.Api.Index;
 using Monitor.CommandBus;
-using Monitor.Database;
 using Nancy;
+using Nancy.Security;
 
-namespace Monitor.Api.Index
+namespace Monitor.Api.Modules
 {
     public class IndexModule : NancyModule
     {
@@ -12,6 +14,9 @@ namespace Monitor.Api.Index
 
         public IndexModule(IRepeater repeater, ICommandBus commandBus)
         {
+            this.RequiresAuthentication();
+            this.RequiresClaims(AccessRights.Access);
+
             _repeater = repeater;
             _commandBus = commandBus;
             Get["/"] = parameters => "Its working!!!";

@@ -1,11 +1,13 @@
 ﻿using System;
+using Monitor.Api.Auth;
+using Monitor.Api.Measurements;
 using Monitor.Api.Measurements.Query;
-using Monitor.Api.Resources;
 using Monitor.CommandBus;
 using Nancy;
 using Nancy.ModelBinding;
+using Nancy.Security;
 
-namespace Monitor.Api.Measurements
+namespace Monitor.Api.Modules
 {
     public class MeasurementsModule:NancyModule
     {
@@ -14,6 +16,9 @@ namespace Monitor.Api.Measurements
 
         public MeasurementsModule(IMeasurementsQuery measurementsQuery, ICommandBus commandBus):base("/measurements")
         {
+            this.RequiresAuthentication();
+            this.RequiresClaims(AccessRights.Access);
+
             _measurementsQuery = measurementsQuery;
             _commandBus = commandBus;
             Get["/"] = _ =>

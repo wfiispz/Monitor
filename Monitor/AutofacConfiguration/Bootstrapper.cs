@@ -7,13 +7,14 @@ using Monitor.Config;
 using Monitor.Logging;
 using Monitor.SensorCommunication.UdpHost;
 using Nancy;
+using Nancy.Authentication.Basic;
 using Nancy.Bootstrapper;
 using Nancy.Bootstrappers.Autofac;
 using Nancy.Extensions;
 
 namespace Monitor.AutofacConfiguration
 {
-    public class Bootstrapper:AutofacNancyBootstrapper
+    public class Bootstrapper : AutofacNancyBootstrapper
     {
         private readonly ComponentsRegistrar _componentsRegistrar = new ComponentsRegistrar();
 
@@ -24,30 +25,42 @@ namespace Monitor.AutofacConfiguration
 
         protected override void ApplicationStartup(ILifetimeScope container, IPipelines pipelines)
         {
+            base.ApplicationStartup(container, pipelines);
+
             StaticConfiguration.DisableErrorTraces = false;
+            var config = container.Resolve<Configuration>();
+
+            if (config.RequireAuthentication)
+                EnableAuthentication(container, pipelines);
+
+            if (config.LogFullHttp)
+                EnableLogging(container, pipelines);
+
             var udpHost = container.Resolve<SensorUdpHost>();
             udpHost.Start();
         }
 
-        protected override void RequestStartup(ILifetimeScope container, IPipelines pipelines, NancyContext ctx)
+        private static void EnableAuthentication(ILifetimeScope container, IPipelines pipelines)
         {
-            var logFullHttp = container.Resolve<Configuration>().LogFullHttp;
-            if (logFullHttp)
+            pipelines.EnableBasicAuthentication(
+                new BasicAuthenticationConfiguration(container.Resolve<IUserValidator>(), "Realm"));
+        }
+
+        private void EnableLogging(ILifetimeScope container, IPipelines pipelines)
+        {
+            var logger = container.Resolve<ILogger>();
+
+            pipelines.OnError.AddItemToStartOfPipeline((context, exception) =>
             {
-                var logger = container.Resolve<ILogger>();
+                logger.LogError("Something is no yes", exception);
+                return null;
+            });
 
-                pipelines.OnError.AddItemToStartOfPipeline((context, exception) =>
-                {
-                    logger.LogError("Something is no yes", exception);
-                    return null;
-                });
-
-                pipelines.AfterRequest.AddItemToEndOfPipeline(context =>
-                {
-                    logger.LogInfo(
-                        $"Processed HTTP request: {Environment.NewLine}{BuildString(context.Request)}{Environment.NewLine}Returning response: {BuildString(context.Response)}");
-                });
-            }
+            pipelines.AfterRequest.AddItemToEndOfPipeline(context =>
+            {
+                logger.LogInfo(
+                    $"Processed HTTP request: {Environment.NewLine}{BuildString(context.Request)}{Environment.NewLine}Returning response: {BuildString(context.Response)}");
+            });
         }
 
         private string BuildString(Response response)

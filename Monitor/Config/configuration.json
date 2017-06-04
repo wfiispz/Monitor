@@ -4,5 +4,8 @@
   "sensorUdpPort": 8001, 
   "debugMode": true,
   "databaseFilepath": "Monitor.db",
-  "logFullHttp": true
+  "logFullHttp": true,
+  "requireAuthentication": true,
+  "username": "user",
+  "password": "password" 
 }

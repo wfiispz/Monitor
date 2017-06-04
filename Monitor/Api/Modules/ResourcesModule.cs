@@ -1,10 +1,13 @@
 ﻿using System;
+using Monitor.Api.Auth;
+using Monitor.Api.Resources;
 using Monitor.Api.Resources.Query;
 using Monitor.CommandBus;
 using Nancy;
 using Nancy.ModelBinding;
+using Nancy.Security;
 
-namespace Monitor.Api.Resources
+namespace Monitor.Api.Modules
 {
     public class ResourcesModule:NancyModule
     {
@@ -13,6 +16,9 @@ namespace Monitor.Api.Resources
 
         public ResourcesModule(ICommandBus commandBus, IResourcesQuery resourcesQuery):base("/resources")
         {
+            this.RequiresAuthentication();
+            this.RequiresClaims(AccessRights.Access);
+
             _commandBus = commandBus;
             _resourcesQuery = resourcesQuery;
 
