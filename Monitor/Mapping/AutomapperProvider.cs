@@ -46,7 +46,7 @@ namespace Monitor.Mapping
                         .ForMember(x => x.Guid, opt => opt.MapFrom(x => x.ResourceId));
 
                     cfg.CreateMap<ComplexMetric, Api.Measurements.Query.Sensor>()
-                        .ForMember(x => x.Host, opt => opt.MapFrom(src => src.Sensor.Resource.Guid))
+                        .ForMember(x => x.Host, opt => opt.MapFrom(src => _pathBuilder.CreateForResource(src.Sensor.Resource.Guid)))
                         .ForMember(x => x.Metric, opt => opt.MapFrom(src => src.Sensor.Metric))
                         .ForMember(x => x.Unit, opt => opt.MapFrom(src => src.Sensor.Unit))
                         .ForMember(x => x.Complex, opt => opt.MapFrom(src => true))
