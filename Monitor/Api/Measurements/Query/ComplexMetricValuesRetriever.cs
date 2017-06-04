@@ -63,7 +63,7 @@ namespace Monitor.Api.Measurements.Query
                 valueDate += TimeSpan.FromMilliseconds(metric.Frequency))
             {
                 var aggregateValues =
-                    simpleValues.Values.Where(x => x.Timestamp > valueDate && x.Timestamp <= valueDate - windowSize);
+                    simpleValues.Values.Where(x => x.Timestamp < valueDate && x.Timestamp >= valueDate - windowSize);
                 if(! aggregateValues.Any())
                     continue;
 
