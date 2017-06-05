@@ -14,11 +14,12 @@ namespace Monitor.Database
         public virtual float MaxValue { get; set; }
         public virtual Resource Resource { get; set; }
         public virtual IList<Measurement> Measurements { get; set; }
-        // TODO complexMetric field?
+        public virtual IList<ComplexMetric> ComplexMetrics { get; set; }
 
         public Sensor()
         {
             Measurements = new List<Measurement>();
+            ComplexMetrics = new List<ComplexMetric>();
         }
 
         public class SensorMap : ClassMap<Sensor>
@@ -35,6 +36,7 @@ namespace Monitor.Database
                 References(x => x.Resource)
                     .Cascade.All();
                 HasMany(x => x.Measurements).Cascade.All().Inverse();
+                HasMany(x => x.ComplexMetrics).Cascade.All().Inverse();
             }
         }
     }

@@ -5,6 +5,7 @@ using System.Reflection;
 using Autofac;
 using Autofac.Core;
 using Monitor.Api.Index;
+using Monitor.Api.Modules;
 using Monitor.CommandBus;
 using Monitor.Config;
 using Monitor.Database;

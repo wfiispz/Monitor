@@ -10,7 +10,7 @@ namespace Monitor.Database
         public virtual Guid Guid { get; set; }
         public virtual string Name { get; set; }
         public virtual string Description { get; set; }
-        public virtual IList<Sensor> Sensors {get;set;}
+        public virtual IList<Sensor> Sensors {get; set; }
 
         public Resource()
         {

@@ -8,31 +8,41 @@ namespace Monitor.Api.Measurements.Query
 {
     internal class MeasurementsQuery : IMeasurementsQuery
     {
-        private const int MaxMeasurementsLimit = 1000;
-        private readonly IMapper _mapper;
-        private readonly IPathBuilder _pathBuilder;
         private readonly ISessionFactory _sessionFactory;
+        private readonly IMapper _mapper;
+        private readonly IComplexMetricValuesRetriever _complexMetricValuesRetriever;
+        private readonly SimpleMetricValuesRetriever _simpleMetricValuesRetriever;
 
-        public MeasurementsQuery(ISessionFactory sessionFactory, IMapper mapper, IPathBuilder pathBuilder)
+        public MeasurementsQuery(ISessionFactory sessionFactory, IMapper mapper, IPathBuilder pathBuilder, IComplexMetricValuesRetriever complexMetricValuesRetriever)
         {
             _sessionFactory = sessionFactory;
             _mapper = mapper;
-            _pathBuilder = pathBuilder;
+            _simpleMetricValuesRetriever = new SimpleMetricValuesRetriever(mapper, pathBuilder);
+            _complexMetricValuesRetriever = complexMetricValuesRetriever;
         }
 
         public MeasurementsResponse All(MeasurementsQueryParameters queryParameters)
         {
             using (var session = _sessionFactory.OpenSession())
             {
+                var sensorsCount = session.QueryOver<Database.Sensor>().RowCount();
+                var rowCount = sensorsCount + session.QueryOver<Database.ComplexMetric>().RowCount();
+
+                var firstResult = (queryParameters.Page - 1) * queryParameters.PageSize;
                 var sensors = session.QueryOver<Database.Sensor>()
-                    .Skip((queryParameters.Page - 1) * queryParameters.PageSize)
+                    .Skip(firstResult)
                     .Take(queryParameters.PageSize).List();
 
-                var rowCount = session.QueryOver<Database.Sensor>().RowCount();
+                var complexMetrics = session.QueryOver<ComplexMetric>()
+                    .Skip(Math.Max(firstResult - sensorsCount, 0))
+                    .Take(queryParameters.PageSize - sensors.Count)
+                    .List();
 
                 return new MeasurementsResponse
                 {
-                    Measurements = sensors.Select(x => _mapper.Map<Sensor>(x)).ToArray(),
+                    Measurements = sensors.Select(x => _mapper.Map<Sensor>(x))
+                        .Concat(complexMetrics.Select(x => _mapper.Map<Sensor>(x)))
+                        .ToArray(),
                     Page = new PageDetails
                     {
                         TotalCount = rowCount,
@@ -51,10 +61,20 @@ namespace Monitor.Api.Measurements.Query
                     .JoinQueryOver(x => x.Resource)
                     .SingleOrDefault();
 
-                if (sensor == null)
-                    throw new ArgumentException("measurement with given id not found");
 
-                return _mapper.Map<Sensor>(sensor);
+                if (sensor != null)
+                    return _mapper.Map<Sensor>(sensor);
+
+                var complexMetric = session.QueryOver<ComplexMetric>()
+                    .Where(x => x.Guid == id)
+                    .JoinQueryOver(x => x.Sensor)
+                    .JoinQueryOver(x => x.Resource)
+                    .SingleOrDefault();
+
+                if (complexMetric != null)
+                    return _mapper.Map<Sensor>(complexMetric);
+
+                throw new ArgumentException("measurement with given id not found");
             }
         }
 
@@ -62,22 +82,8 @@ namespace Monitor.Api.Measurements.Query
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                var query = session.QueryOver<Measurement>()
-                    .Where(x => x.Timestamp > parameters.From).And(x => x.Timestamp < parameters.To)
-                    .JoinQueryOver(x => x.Sensor)
-                    .Where(x => x.Guid == parameters.Id);
-                var measurementsRowCount = query.RowCount();
-
-                if (measurementsRowCount > MaxMeasurementsLimit)
-                    throw new ArgumentException("Too big date/time range.");
-
-                var measurements = query.List();
-
-                return new ValuesResponse
-                {
-                    Measurements = _pathBuilder.CreateForSensor(parameters.Id),
-                    Values = measurements.Select(x => _mapper.Map<SensorValue>(x)).ToArray()
-                };
+                ValuesResponse values;
+                return _complexMetricValuesRetriever.TryGet(parameters,out values) ? values : _simpleMetricValuesRetriever.GetSimpleMetric(parameters, session);
             }
         }
     }

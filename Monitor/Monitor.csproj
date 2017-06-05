@@ -53,6 +53,9 @@
     <Reference Include="Nancy, Version=1.4.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.1.4.3\lib\net40\Nancy.dll</HintPath>
     </Reference>
+    <Reference Include="Nancy.Authentication.Basic, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Nancy.Authentication.Basic.1.4.1\lib\net40\Nancy.Authentication.Basic.dll</HintPath>
+    </Reference>
     <Reference Include="Nancy.Bootstrappers.Autofac, Version=1.4.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Nancy.Bootstrappers.Autofac.1.4.1\lib\net40\Nancy.Bootstrappers.Autofac.dll</HintPath>
     </Reference>
@@ -79,9 +82,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Api\Sensor\SensorModule.cs" />
+    <Compile Include="Api\Measurements\CreateComplexMeasurement.cs" />
+    <Compile Include="Api\Measurements\CreateComplexMeasurementHandler.cs" />
+    <Compile Include="Api\Measurements\DeleteComplexMetric.cs" />
+    <Compile Include="Api\Measurements\DeleteComplexMetricHandler.cs" />
+    <Compile Include="Api\Measurements\Query\ComplexMetricValuesRetriever.cs" />
+    <Compile Include="Api\Measurements\Query\IComplexMetricValuesRetriever.cs" />
+    <Compile Include="Api\Measurements\Query\ISimpleMetricValuesRetriever.cs" />
+    <Compile Include="Api\Measurements\Query\SimpleMetricValuesRetriever.cs" />
+    <Compile Include="Api\Auth\AccessRights.cs" />
+    <Compile Include="Api\Modules\SensorModule.cs" />
     <Compile Include="AutofacConfiguration\Bootstrapper.cs" />
     <Compile Include="AutofacConfiguration\ComponentsRegistrar.cs" />
+    <Compile Include="Api\Auth\UserIdentity.cs" />
+    <Compile Include="Api\Auth\UserValidator.cs" />
     <Compile Include="Config\Configuration.cs" />
     <Compile Include="CommandBus\CommandHandlerAttribute.cs" />
     <Compile Include="CommandBus\ICommand.cs" />
@@ -95,13 +109,13 @@
     <Compile Include="Mapping\AutomapperProvider.cs" />
     <Compile Include="Api\Index\IndexCommand.cs" />
     <Compile Include="Api\Index\IndexHandler.cs" />
-    <Compile Include="Api\Index\IndexModule.cs" />
+    <Compile Include="Api\Modules\IndexModule.cs" />
     <Compile Include="Api\Index\IRepeater.cs" />
     <Compile Include="Api\Index\Repeater.cs" />
     <Compile Include="Api\Measurements\DeleteValues.cs" />
     <Compile Include="Api\Measurements\DeleteValuesHandler.cs" />
     <Compile Include="Api\Measurements\Query\IMeasurementsQuery.cs" />
-    <Compile Include="Api\Measurements\MeasurementsModule.cs" />
+    <Compile Include="Api\Modules\MeasurementsModule.cs" />
     <Compile Include="Api\Measurements\Query\MeasurementsQuery.cs" />
     <Compile Include="Api\Measurements\Query\MeasurementsQueryParameters.cs" />
     <Compile Include="Api\Measurements\Query\MeasurementsResponse.cs" />
@@ -115,7 +129,7 @@
     <Compile Include="Api\Resources\Query\Resource.cs" />
     <Compile Include="Api\Resources\Query\ResourcesQueryParameters.cs" />
     <Compile Include="Api\Resources\Query\IResourcesQuery.cs" />
-    <Compile Include="Api\Resources\ResourcesModule.cs" />
+    <Compile Include="Api\Modules\ResourcesModule.cs" />
     <Compile Include="Api\Resources\Query\ResourcesResponse.cs" />
     <Compile Include="Api\Resources\Query\ResourcesQuery.cs" />
     <Compile Include="NancyApiHost.cs" />
