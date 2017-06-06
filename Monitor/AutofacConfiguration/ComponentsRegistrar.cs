@@ -60,7 +60,14 @@ namespace Monitor.AutofacConfiguration
                 .AsSelf()
                 .AsImplementedInterfaces();
 
-            builder.Register(x => x.Resolve<IConfigurationLoader>().Load())
+            builder.Register(x => x.Resolve<IConfigurationLoader>(new ResolvedParameter(
+                (info, _) => info.ParameterType == typeof(string),
+                (_,context) =>
+                {
+                    var args = Environment.GetCommandLineArgs();
+                    return args.Length>1 ? args[1] : "./Config/configuration.json";
+                }
+                )).Load())
                 .AsSelf()
                 .AsImplementedInterfaces()
                 .SingleInstance();
