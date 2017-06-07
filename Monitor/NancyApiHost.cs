@@ -8,9 +8,9 @@ namespace Monitor
     {
         private NancyHost _host;
 
-        public void Start()
+        public void Start(string configPath)
         {
-            var configuration = new ConfigurationLoader(new JsonDeserializer()).Load();
+            var configuration = new ConfigurationLoader(new JsonDeserializer(),configPath).Load();
             _host = new NancyHost(new Uri(configuration.UrlBasePath));
             _host.Start();
             Console.Out.WriteLine($"Listening on API endpoint: {configuration.UrlBasePath}");

@@ -3,20 +3,23 @@ using Monitor.SensorCommunication;
 
 namespace Monitor.Config
 {
-    internal class ConfigurationLoader : IConfigurationLoader
+    public class ConfigurationLoader : IConfigurationLoader
     {
-        private readonly IJsonDeserializer _jsonDeserializer;
+        public const string DefaultConfigFilePath = "./Config/configuration.json";
 
-        public ConfigurationLoader(IJsonDeserializer jsonDeserializer)
+        private readonly IJsonDeserializer _jsonDeserializer;
+        private readonly string _configPath;
+
+        public ConfigurationLoader(IJsonDeserializer jsonDeserializer, string configPath)
         {
             _jsonDeserializer = jsonDeserializer;
+            _configPath = configPath;
         }
 
         public Configuration Load()
         {
-            return _jsonDeserializer.Deserialize<Configuration>(File.ReadAllText(ConfigFilePath));
+            return _jsonDeserializer.Deserialize<Configuration>(File.ReadAllText(_configPath));
         }
 
-        private const string ConfigFilePath = "Config/configuration.json";
     }
 }

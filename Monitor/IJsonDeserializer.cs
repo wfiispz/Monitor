@@ -1,6 +1,6 @@
 ﻿namespace Monitor
 {
-    internal interface IJsonDeserializer
+    public interface IJsonDeserializer
     {
         T Deserialize<T>(string value);
     }
