@@ -18,7 +18,7 @@ namespace Monitor.Database
             public ComplexMetricMap()
             {
                 Id(x => x.Id);
-                References(x => x.Sensor).Cascade.All();
+                References(x => x.Sensor).Cascade.None();
                 Map(x => x.Guid);
                 Map(x => x.Frequency);
                 Map(x => x.WindowSize);
